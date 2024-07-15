@@ -1,0 +1,17 @@
+name: facenet
+channels:
+    - pytorch
+    - conda-forge
+    - defaults
+dependencies:
+    - python=3.10.13
+    - numpy
+    - pytorch
+    - torchvision
+    - pillow
+    - opencv
+    - scipy
+    - tqdm
+    - pandas
+    - jupyter
+    - tensorboard>=2.0.0,<3.0.0
