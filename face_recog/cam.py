@@ -36,7 +36,7 @@ def run_cam():
                 if cv2.waitKey(1) & 0xFF == ord('1'):
                     print('Taken picture')
                     img_embeddings = resnet(input_face).detach()
-                    cv2.imwrite('capture_image.jpg', face)
+                    cv2.imwrite('img/capture_image.jpg', face)
                     img_taken = True
 
                 if (img_taken):
