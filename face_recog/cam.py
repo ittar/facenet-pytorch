@@ -9,7 +9,7 @@ import torch
 from PIL import Image
 import cv2
 # Load pre-trained FaceNet model
-resnet = InceptionResnetV1(pretrained='casia-webface').eval()
+resnet = InceptionResnetV1(pretrained='vggface2').eval()
 MARGIN = 14
 THRES = .75
 
