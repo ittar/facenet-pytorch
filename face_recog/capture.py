@@ -52,7 +52,7 @@ def process_video(vid_path, df_list, detector, resnet, vid_dir):
         if key == 27:
             break
         
-        cv2.imshow('image', BRG_frame)
+        # cv2.imshow('image', BRG_frame)
     
     cap.release()
     cv2.destroyAllWindows()
