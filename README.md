@@ -6,42 +6,43 @@
 
 [![Code Coverage](https://img.shields.io/codecov/c/github/timesler/facenet-pytorch.svg)](https://codecov.io/gh/timesler/facenet-pytorch)
 
-This is a repository for Inception Resnet (V1) models in pytorch, pretrained on VGGFace2 and CASIA-Webface.
+This is a forked repository for Inception Resnet (V1) models in pytorch, pretrained on VGGFace2 and CASIA-Webface.
 
 Pytorch model weights were initialized using parameters ported from David Sandberg's [tensorflow facenet repo](https://github.com/davidsandberg/facenet).
 
 Also included in this repo is an efficient pytorch implementation of MTCNN for face detection prior to inference. These models are also pretrained. To our knowledge, this is the fastest MTCNN implementation available.
 
-## Table of contents
 
-* [Table of contents](#table-of-contents)
-* [Quick start](#quick-start)
-* [Pretrained models](#pretrained-models)
-* [Example notebooks](#example-notebooks)
-  + [*Complete detection and recognition pipeline*](#complete-detection-and-recognition-pipeline)
-  + [*Face tracking in video streams*](#face-tracking-in-video-streams)
-  + [*Finetuning pretrained models with new data*](#finetuning-pretrained-models-with-new-data)
-  + [*Guide to MTCNN in facenet-pytorch*](#guide-to-mtcnn-in-facenet-pytorch)
-  + [*Performance comparison of face detection packages*](#performance-comparison-of-face-detection-packages)
-  + [*The FastMTCNN algorithm*](#the-fastmtcnn-algorithm)
-* [Running with docker](#running-with-docker)
-* [Use this repo in your own git project](#use-this-repo-in-your-own-git-project)
-* [Conversion of parameters from Tensorflow to Pytorch](#conversion-of-parameters-from-tensorflow-to-pytorch)
-* [References](#references)
+
+
+
+## Table of contents
+- [Face Recognition Using Pytorch](#face-recognition-using-pytorch)
+  - [Table of contents](#table-of-contents)
+  - [Quick start](#quick-start)
+  - [Pretrained models](#pretrained-models)
+  - [Face Recognition with OpenCV](#face-recognition-with-opencv)
+  - [Face Capture with OpenCV](#face-capture-with-opencv)
+  - [Example notebooks](#example-notebooks)
+    - [*Complete detection and recognition pipeline*](#complete-detection-and-recognition-pipeline)
+    - [*Face tracking in video streams*](#face-tracking-in-video-streams)
+    - [*Finetuning pretrained models with new data*](#finetuning-pretrained-models-with-new-data)
+    - [*Guide to MTCNN in facenet-pytorch*](#guide-to-mtcnn-in-facenet-pytorch)
+    - [*Performance comparison of face detection packages*](#performance-comparison-of-face-detection-packages)
+    - [*The FastMTCNN algorithm*](#the-fastmtcnn-algorithm)
+  - [Running with docker](#running-with-docker)
+  - [Use this repo in your own git project](#use-this-repo-in-your-own-git-project)
+  - [Conversion of parameters from Tensorflow to Pytorch](#conversion-of-parameters-from-tensorflow-to-pytorch)
+  - [References](#references)
+
 
 ## Quick start
 
 1. Install:
     
     ```bash
-    # With pip:
-    pip install facenet-pytorch
-    
-    # or clone this repo, removing the '-' to allow python imports:
-    git clone https://github.com/timesler/facenet-pytorch.git facenet_pytorch
-    
-    # or use a docker container (see https://github.com/timesler/docker-jupyter-dl-gpu):
-    docker run -it --rm timesler/jupyter-dl-gpu pip install facenet-pytorch && ipython
+    conda env create -f environment.yml
+    conda activate facenet
     ```
     
 1. In python, import facenet-pytorch and instantiate models:
@@ -108,6 +109,36 @@ model = InceptionResnetV1(classify=True, num_classes=1001).eval()
 Both pretrained models were trained on 160x160 px images, so will perform best if applied to images resized to this shape. For best results, images should also be cropped to the face using MTCNN (see below).
 
 By default, the above models will return 512-dimensional embeddings of images. To enable classification instead, either pass `classify=True` to the model constructor, or you can set the object attribute afterwards with `model.classify = True`. For VGGFace2, the pretrained model will output logit vectors of length 8631, and for CASIA-Webface logit vectors of length 10575.
+
+## Face Recognition with OpenCV
+
+This application uses OpenCV to capture images from your webcam. When you press the `1` key, the current frame is saved if a face is detected. The application then starts recognizing faces in subsequent frames. Release the saved face by press the `2` key.
+1. Navigate to the project directory
+```bash
+  cd face_recog
+```
+2. Run the script
+```bash
+  python cam.py
+```
+
+## Face Capture with OpenCV
+This application uses OpenCV to capture images from your webcam. It saves the captured face image and the embedded vector from the model in a local dataframe. The script then uses t-SNE for 2D visualization plot.
+
+1. Navigate to the project directory
+```bash
+  cd face_recog
+```
+2. Run the script The dataframe will be saved in `{root}/df/`
+```bash
+  python capture.py
+```
+3. Run the notebook
+- Navigate to `{root}/notebook/tsne.ipynb` to reduce dimensions.
+4. Run the plot script
+```bash
+  python plot.py
+```
 
 ## Example notebooks
 
